@@ -1,15 +1,18 @@
 <?php
 session_start();
 
-try {
-	$dbh = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
-	foreach ($dbh->query('SELECT * FROM POKEMON') as $row){
-		print_r($row);
-	}
-} catch (Exception $e) {
-	print "Error!:" . $e->getMessage() . "<br/>";
-	die();
-}
+$pdo = new PDO('mysql:host=localhost;dbname=pokemon',"root", "");
+
+// try {
+// 	$dbh = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+// 	foreach ($dbh->query('SELECT * FROM POKEMON') as $row){
+// 		print_r($row);
+// 	}
+// } catch (Exception $e) {
+// 	print "Error!:" . $e->getMessage() . "<br/>";
+// 	die();
+// }
+
 /**
  * Der übergebene Username und das Passwort werden gespeichert.
  * Anschließend wird der Username in ein Prepared Statement übergeben und die Userdaten abgefragt.
@@ -76,10 +79,12 @@ Dein Passwort:<br>
 <input type="password" size="40"  maxlength="250" name="passwort"><br>
  
 <input type="submit" value="Abschicken">
-</form> 
-
+<br><br>
 <a href="pwvergessen.php">Passwort vergessen</a>
 <a href="register.php">Registrieren</a>
+
+</form> 
+
 
 </body>
 </html>

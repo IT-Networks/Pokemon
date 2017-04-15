@@ -1,6 +1,6 @@
 <?php
-$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php',
-		'benutzer', 'passwort');
+//$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+$pdo = new PDO('mysql:host=localhost;dbname=pokemon',"root", "");
 
 /**
  * Funktion um einen zufälligen String zur Passwortwiederherstellung zu erstellen.
@@ -88,12 +88,14 @@ if(isset($error) && !empty($error)) {
 E-Mail:<br>
 <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlentities($_POST['email']) : ''; ?>"><br>
 <input type="submit" value="Neues Passwort">
+
+<br><br>
+<a href="login.php">Einloggen</a>
+<a href="register.php">Registrieren</a>
+
 </form>
 
 
-<a href="login.php">Einloggen</a>
-
-<a href="register.php">Registrieren</a>
 
 <?php
 endif; //Endif von if($showForm)
