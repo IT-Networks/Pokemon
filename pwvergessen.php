@@ -84,6 +84,9 @@ if(isset($error) && !empty($error)) {
 }
 ?>
  
+<head>
+<link href="background.css" rel="stylesheet">
+</head> 
 <form action="?send=1" method="post">
 E-Mail:<br>
 <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlentities($_POST['email']) : ''; ?>"><br>

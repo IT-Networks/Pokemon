@@ -40,7 +40,7 @@ if(isset($_GET['login'])) {
 <!DOCTYPE html> 
 <html>
 <head>
-
+<link href="background.css" rel="stylesheet">
 <style>
 body{
   display: flex;

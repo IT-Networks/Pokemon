@@ -48,6 +48,10 @@ if(isset($_GET['send'])) {
 }
 ?>
  
+<head>
+<link href="background.css" rel="stylesheet">
+</head>
+
 <h1>Neues Passwort vergeben</h1>
 <form action="?send=1&amp;userid=<?php echo htmlentities($userid); ?>&amp;code=<?php echo htmlentities($code); ?>" method="post">
 Bitte gib ein neues Passwort ein:<br>

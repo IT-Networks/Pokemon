@@ -85,6 +85,10 @@ if(isset($_GET['register'])) {
 if($showFormular) {
 ?>
  
+<head>
+<link href="background.css" rel="stylesheet">
+</head> 
+ 
 <form action="?register=1" method="post">
 
 Username:<br>
