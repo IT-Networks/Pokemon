@@ -1,4 +1,5 @@
 <?php
+//	ini_set('display_errors', 0);
 
 try {
 	$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
@@ -8,7 +9,7 @@ try {
 }
 
 /**
- * Funktion um einen zufälligen String zur Passwortwiederherstellung zu erstellen.
+ * Funktion um einen zufälligen String zur Passwortwiederherstellung zu generieren.
  */
 function random_string() {
 	if(function_exists('random_bytes')) {
@@ -47,8 +48,7 @@ if(isset($_GET['send']) ) {
 		if($user === false) {
 			$error = "<b>Kein Benutzer gefunden</b>";
 		} else {
-			// Eigentlich: > time statt <, nur für Debug 
-			if(strtotime($user['passwortcode_time']) < (time()-24*3600)) {
+			if(strtotime($user['passwortcode_time']) > (time()-24*3600)) {
 				$error = "<b>Es wurde bereits ein Passwortcode verschickt.</b>";
 			}
 			else {
@@ -68,15 +68,13 @@ Sollte dir dein Passwort wieder eingefallen sein oder hast du dies nicht angefor
 		
 Liebe Grüße,
 dein Pokemon-Team';
-				try {
-					mail($empfaenger, $betreff, $text, $from);
-					echo "Ein Link um dein Passwort zurückzusetzen wurde an deine E-Mail-Adresse gesendet.";
-				} catch (Exception $e) {
-					echo "Leider konnte keine Email geschickt werden.";
-				}
-				
-						//, $from);
-			
+
+					if(mail($empfaenger, $betreff, $text, $from)){
+						echo "Ein Link um dein Passwort zurückzusetzen wurde an deine E-Mail-Adresse gesendet.";
+					}
+					else {
+						echo "Leider konnte keine Email geschickt werden.";
+					}							
 				$showForm = false;
 			}
 		}

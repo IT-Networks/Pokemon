@@ -1,0 +1,1 @@
+E-Mail Versand benötigt SMTP Server (bspw. über eigenen E-Mail Account oder Seiten wie mailjet.com)
