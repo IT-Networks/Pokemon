@@ -1,6 +1,11 @@
 <?php
-//$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
-$pdo = new PDO('mysql:host=localhost;dbname=pokemon',"root", "");
+
+try {
+	$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+} catch (Exception $e) {
+	print "Error!:" . $e->getMessage() . "<br/>";
+	die();
+}
 
 /**
  * Funktion um einen zufälligen String zur Passwortwiederherstellung zu erstellen.
@@ -42,18 +47,19 @@ if(isset($_GET['send']) ) {
 		if($user === false) {
 			$error = "<b>Kein Benutzer gefunden</b>";
 		} else {
-			if(strtotime($user['passwortcode_time']) > (time()-24*3600)) {
+			// Eigentlich: > time statt <, nur für Debug 
+			if(strtotime($user['passwortcode_time']) < (time()-24*3600)) {
 				$error = "<b>Es wurde bereits ein Passwortcode verschickt.</b>";
 			}
 			else {
 				$passwortcode = random_string();
 				$statement = $pdo->prepare("UPDATE users SET passwortcode = :passwortcode, passwortcode_time = NOW() WHERE id = :userid");
-				$result = $statement->execute(array('passwortcode' => sha1($passwortcode), 'userid' => $user['id']));
+				$result = $statement->execute(array('passwortcode' => sha1($passwortcode), 'userid' => $user['ID']));
 			
 				$empfaenger = $user['email'];
 				$betreff = "Neues Passwort für deinen Pokemon-Account";
-				$from = "WI 47/15 Pokemon <maltepeters@gmx.de>";
-				$url_passwortcode = 'http://localhost/pwreset.php?userid='.$user['id'].'&code='.$passwortcode;
+				$from = "From: WI 47/15 <maltepeters@gmx.de>";
+				$url_passwortcode = 'http://localhost/pwreset.php?userid='.$user['ID'].'&code='.$passwortcode;
 				$text = 'Hallo '.$user['username'].',
 für deinen Pokemon-Account wurde nach einem neuen Passwort gefragt. Um ein neues Passwort zu vergeben, rufe innerhalb der nächsten 24 Stunden die folgende Website auf:
 '.$url_passwortcode.'
@@ -62,10 +68,15 @@ Sollte dir dein Passwort wieder eingefallen sein oder hast du dies nicht angefor
 		
 Liebe Grüße,
 dein Pokemon-Team';
+				try {
+					mail($empfaenger, $betreff, $text, $from);
+					echo "Ein Link um dein Passwort zurückzusetzen wurde an deine E-Mail-Adresse gesendet.";
+				} catch (Exception $e) {
+					echo "Leider konnte keine Email geschickt werden.";
+				}
+				
+						//, $from);
 			
-				mail($empfaenger, $betreff, $text, $from);
-			
-				echo "Ein Link um dein Passwort zurückzusetzen wurde an deine E-Mail-Adresse gesendet.";
 				$showForm = false;
 			}
 		}
@@ -93,8 +104,8 @@ E-Mail:<br>
 <input type="submit" value="Neues Passwort">
 
 <br><br>
-<a href="login.php">Einloggen</a>
-<a href="register.php">Registrieren</a>
+<a href="login.php"><button name=login type="button">Einloggen</button></a>
+<a href="register.php"><button name=register type="button">Registrieren</button></a>
 
 </form>
 

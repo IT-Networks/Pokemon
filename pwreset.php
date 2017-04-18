@@ -1,5 +1,11 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=pokemon', 'root', '');
+
+try {
+	$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+} catch (Exception $e) {
+	print "Error!:" . $e->getMessage() . "<br/>";
+	die();
+}
 
 if(!isset($_GET['userid']) || !isset($_GET['code'])) {
 	die("Leider wurde kein Code zum Zurücksetzen deines Passworts übermittelt");

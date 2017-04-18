@@ -1,17 +1,12 @@
 <?php
 session_start();
 
-$pdo = new PDO('mysql:host=localhost;dbname=pokemon',"root", "");
-
-// try {
-// 	$dbh = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
-// 	foreach ($dbh->query('SELECT * FROM POKEMON') as $row){
-// 		print_r($row);
-// 	}
-// } catch (Exception $e) {
-// 	print "Error!:" . $e->getMessage() . "<br/>";
-// 	die();
-// }
+try {
+	$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+} catch (Exception $e) {
+	print "Error!:" . $e->getMessage() . "<br/>";
+	die();
+}
 
 /**
  * Der übergebene Username und das Passwort werden gespeichert.
@@ -28,9 +23,10 @@ if(isset($_GET['login'])) {
 	$user = $statement->fetch();
 	
 	//Überprüfung des Passworts
-	if ($user !== false && password_verify($passwort, $user['passwort'])) {
-		$_SESSION['userid'] = $user['id'];
-		die('Login erfolgreich. <a href="loggedin.php">Spiel starten!</a>');
+	if ($user !== false && password_verify($passwort, $user['passwort'])) {	
+		$_SESSION['userid'] = $user['ID'];		
+		header("Location: loggedin.php");
+		exit;
 	} else {
 		$errorMessage = "Benutzername oder Passwort war ungültig<br>";
 	}
@@ -40,6 +36,7 @@ if(isset($_GET['login'])) {
 <!DOCTYPE html> 
 <html>
 <head>
+<meta charset="utf-8">
 <link href="background.css" rel="stylesheet">
 <style>
 body{
@@ -61,7 +58,7 @@ aside {
   flex: 1 1 0%;
 }
 </style>
-  <title>Login</title> 
+  <title>Pokemon-Game Login</title> 
 </head> 
 <body>
  
@@ -80,8 +77,9 @@ Dein Passwort:<br>
  
 <input type="submit" value="Abschicken">
 <br><br>
-<a href="pwvergessen.php">Passwort vergessen</a>
-<a href="register.php">Registrieren</a>
+
+<a href="pwvergessen.php"><button name=pwvergessen type="button">Passwort vergessen</button></a>
+<a href="register.php"><button name=register type="button">Registrieren</button></a>
 
 </form> 
 

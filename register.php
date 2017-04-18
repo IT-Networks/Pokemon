@@ -1,7 +1,12 @@
 <?php
 session_start();
-//$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
-$pdo = new PDO('mysql:host=localhost;dbname=pokemon',"root", "");
+
+try {
+	$pdo = new PDO('mysql:host=instanz1.cf6ecdewusof.eu-central-1.rds.amazonaws.com:3306;dbname=php','benutzer', 'passwort');
+} catch (Exception $e) {
+	print "Error!:" . $e->getMessage() . "<br/>";
+	die();
+}
 
 ?>
 <!DOCTYPE html> 
@@ -106,8 +111,8 @@ Passwort wiederholen:<br>
 <input type="submit" value="Abschicken">
 
 <br><br>
-<a href="login.php">Einloggen</a>  
-<a href="pwvergessen.php">Passwort vergessen</a>
+<a href="login.php"><button name=login type="button">Einloggen</button></a>  
+<a href="pwvergessen.php"><button name=pwvergessen type="button">Passwort vergessen</button></a>
 
 </form>
 
